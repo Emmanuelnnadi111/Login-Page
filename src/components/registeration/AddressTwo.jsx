@@ -24,6 +24,7 @@ const AddressTwo = () => {
           className="p-4 border rounded-2xl outline-none w-full mt-5"
           placeholder="Street address"
         />
+
         <input
           type="text"
           name="apartment"

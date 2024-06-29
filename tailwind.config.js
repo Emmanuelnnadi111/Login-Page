@@ -24,9 +24,11 @@ export default {
         textCol: "#1A0710",
         numPagesCol: " #6BC62D",
         manual: "#5932EA",
+        dabTextCol: "#9197B3",
         someCol: "rgba(26, 7, 16, 0.65)",
+        successBgCol: "rgba(239, 73, 143, 0.14)",
       },
     },
   },
-  plugins: ["flowbite/plugin"],
+  plugins: [require("flowbite/plugin")],
 };

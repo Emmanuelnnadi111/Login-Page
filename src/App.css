@@ -1,4 +1,37 @@
-.custom-flex::placeholder {
-  display: flex;
-  gap: 4rem;
-}
+ .input-wrapper {
+      position: relative;
+    }
+    .input-wrapper::before,
+    .input-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none; /* Ensure the text is not clickable */
+      color: #9CA3AF; /* Tailwind's text-gray-400 */
+      font-size: 14px; /* Match input font size */
+      display: flex;
+      align-items: center;
+      transition: opacity 0.2s ease;
+    }
+    .input-wrapper::before {
+      content: 'Birthday';
+      left: 10px;
+    }
+    .input-wrapper::after {
+      content: 'Optional';
+      right: 10px;
+    }
+    .input-wrapper input {
+      padding-left: 70px; /* Adjust to fit the left text */
+      padding-right: 70px; /* Adjust to fit the right text */
+    }
+    .input-wrapper.hide-placeholder::before,
+    .input-wrapper.hide-placeholder::after {
+      opacity: 0;
+    }
+
+/* input[type="text"]::placeholder {
+  display: inline-block;
+  margin-right: 4rem;
+} */
