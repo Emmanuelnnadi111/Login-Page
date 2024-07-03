@@ -7,6 +7,7 @@ import SuccessRegistration from "./components/registeration/pages/SuccessRegistr
 import MainDashboard from "./components/dashboard/MainDasboard";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Info from "./components/registeration/Infro";
+import ShowMap from "./components/registeration/map/ShowMap";
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +27,7 @@ function App() {
         />
         <Route exact path="/Info" Component={Info} />
         <Route exact path="/MainDashboard" Component={MainDashboard} />
+        <Route exact path="/showMap" Component={ShowMap} />
       </Routes>
     </BrowserRouter>
   );

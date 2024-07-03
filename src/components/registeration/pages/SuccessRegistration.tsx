@@ -9,7 +9,7 @@ const SuccessRegistration = () => {
     navigate("/login");
   };
   return (
-    <div className="h-screen flex w-full items-center justify-center bg-slate-300">
+    <div className="h-screen flex w-full items-center justify-center bg-slate-100">
       <div className="register bg-offWhite  w-[90%] lg:w-[35%] md:h-[60%] lg:h-[90%] sm: rounded-3xl">
         <div className="bg-successBgCol w-full h-80  rounded-t-2xl">
           <div className="flex m-auto items-start justify-center">
