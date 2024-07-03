@@ -1,42 +1,50 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useFormik, FormikErrors } from "formik";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faLocationDot,
   faClock,
   faDollarSign,
   faUsers,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons/faLocationDot";
-import { useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
-type address = {
+
+// Define the type for form values
+interface FormValues {
   search: string;
-};
-const initialValues: address = {
+}
+
+// Initial values for the form
+const initialValues: FormValues = {
   search: "",
 };
 
-const validate = (values: string) => {
-  const errors: address = {
-    search: "",
-  };
+// Validation function
+const validate = (values: FormValues): FormikErrors<FormValues> => {
+  const errors: FormikErrors<FormValues> = {};
   if (!values.search) {
     errors.search = "This field is Required";
   }
   return errors;
 };
-const Address = () => {
+
+const Address: React.FC = () => {
+  const navigate = useNavigate();
+
   const onSubmit = () => {
     nextAddress();
   };
-  const navigate = useNavigate();
+
   const nextAddress = () => {
     navigate("/Info");
   };
+
   const showMap = () => {
     navigate("/showMap");
   };
 
-  const formik = useFormik({
+  const formik = useFormik<FormValues>({
     initialValues,
     onSubmit,
     validate,
@@ -56,15 +64,15 @@ const Address = () => {
             </button>
           </div>
         </div>
-        <form action="" onSubmit={formik.handleSubmit}>
+        <form onSubmit={formik.handleSubmit}>
           <label
             htmlFor="default-search"
-            className=" text-sm font-medium text-gray-900 sr-only dark:text-white"
+            className="text-sm font-medium text-gray-900 sr-only dark:text-white"
           >
             Search
           </label>
           <div className="relative py-10">
-            <div className="absolute inset-y-0 start-0 flex items-center ps-1 bottom-4pointer-events-none">
+            <div className="absolute inset-y-0 start-0 flex items-center ps-1 bottom-1 pointer-events-none">
               <svg
                 className="w-4 h-4 text-gray-500 dark:text-gray-400"
                 aria-hidden="true"
@@ -74,9 +82,9 @@ const Address = () => {
               >
                 <path
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                 />
               </svg>
@@ -85,7 +93,7 @@ const Address = () => {
               type="search"
               name="search"
               id="default-search"
-              className=" w-full ps-10 text-sm text-gray-900 outline-none rounded-lg  p-5 border "
+              className="w-full ps-10 text-sm text-gray-900 outline-none rounded-lg p-5 border"
               placeholder="Search"
               value={formik.values.search}
               onChange={formik.handleChange}
@@ -121,7 +129,7 @@ const Address = () => {
         </form>
 
         <div className="text mt-20">
-          <h2 className="text-textCol  text-2xl font-bold">
+          <h2 className="text-textCol text-2xl font-bold">
             Sharing your address shows:
           </h2>
           <div className="mt-10 font-semibold">

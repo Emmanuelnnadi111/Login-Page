@@ -1,31 +1,29 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faApple, faFacebookF } from "@fortawesome/free-brands-svg-icons";
-import { useFormik } from "formik";
+import { FormikErrors, useFormik } from "formik";
 import Header from "../header/Header";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-type info = {
+
+// Define the type for form values
+interface FormValues {
   email: string;
   password: string;
-};
+}
 
-const initialValues = {
+// Initial values for the form
+const initialValues: FormValues = {
   email: "",
   password: "",
 };
 
-const validate = (values: { password: number; email: string }) => {
-  const errors: info = {
-    email: "",
-    password: "",
-  };
+// Validation function
+const validate = (values: FormValues): FormikErrors<FormValues> => {
+  const errors: FormikErrors<FormValues> = {};
   if (!values.password) {
     errors.password = "This field is Required";
   }
-
   if (!values.email) {
     errors.email = "This field is Required";
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
@@ -34,23 +32,23 @@ const validate = (values: { password: number; email: string }) => {
   return errors;
 };
 
-const Login = () => {
-  const onSubmit = (_values: any) => {
+const Login: React.FC = () => {
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const onSubmit = () => {
     dashboard();
   };
 
-  const formik = useFormik({
+  const formik = useFormik<FormValues>({
     initialValues,
     onSubmit,
     validate,
   });
 
-  const navigate = useNavigate();
   const dashboard = () => {
     navigate("/MainDashboard");
   };
-
-  const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -75,7 +73,7 @@ const Login = () => {
             <div className="facebook-icon rounded-full w-12 h-12 text-center flex items-center justify-center  bg-iconsBgCol">
               <FontAwesomeIcon
                 icon={faFacebookF}
-                className="text-faceboolCol"
+                className="text-facebookCol"
               />
             </div>
             <div className="google-icon rounded-full w-12 h-12 text-center flex items-center justify-center  bg-iconsBgCol">
@@ -116,11 +114,11 @@ const Login = () => {
                 className="absolute top-6 right-4 text-2xl "
               />
             </div>
-            {formik.touched.email && formik.errors.email ? (
-              <div className="text-red-600 ">{formik.errors.email}</div>
+            {formik.touched.password && formik.errors.password ? (
+              <div className="text-red-600 ">{formik.errors.password}</div>
             ) : null}
             <button
-              className="register-btn  py-5 rounded-2xl text-white font-semibold text-xl w-full text-center bg-borderCol"
+              className="register-btn py-5 rounded-2xl text-white font-semibold text-xl w-full text-center bg-borderCol"
               type="submit"
             >
               Login to Dashboard
