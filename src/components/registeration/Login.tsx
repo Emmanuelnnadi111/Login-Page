@@ -1,14 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faApple, faFacebookF } from "@fortawesome/free-brands-svg-icons";
-import GoogleImage from "/images/super-g.png";
 import { Formik } from "formik";
 import Header from "../header/Header";
 
-const CreateAccount = () => {
+const Login = () => {
   return (
     <div className="h-screen flex w-full items-center justify-center bg-slate-300">
-      <div className="register bg-offWhite p-6 w-[90%] lg:w-[35%] md:h-[60%] lg:h-[90%] sm:p-12 rounded-3xl ">
+      <div className="register bg-offWhite p-6 w-[90%] lg:w-[35%] md:h-[60%] lg:h-[90%] sm:p-12 rounded-3xl">
         <div className="first-row flex justify-between">
           <Header />
           <div className="cancel">
@@ -29,11 +28,11 @@ const CreateAccount = () => {
               />
             </div>
             <div className="google-icon rounded-full w-12 h-12 text-center flex items-center justify-center  bg-iconsBgCol">
-              <img src={GoogleImage} alt="google" />
+              <img src="images/super-g.png" alt="google" />
             </div>
           </div>
         </div>
-        <p className="text-regTextCol">or register with email</p>
+        <p className="text-regTextCol">or login with email</p>
         <Formik
           initialValues={{ email: "", password: "" }}
           validate={(values) => {
@@ -93,16 +92,14 @@ const CreateAccount = () => {
                   />
                 </div>
                 {errors.password && touched.password && errors.password}
+                <button
+                  className="register-btn mt-7 py-5 rounded-2xl text-white font-semibold text-xl w-full text-center bg-borderCol"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  Login to Dashboard
+                </button>
               </form>
-              <p className="text-regTextCol">8+ characters</p>
-              <button
-                className="register-btn mt-7 py-5 rounded-2xl text-white font-semibold text-xl w-full text-center bg-borderCol"
-                type="submit"
-                disabled={isSubmitting}
-                // onClick={() => goToPersonalInfo}
-              >
-                Create account
-              </button>
             </div>
           )}
         </Formik>
@@ -114,17 +111,11 @@ const CreateAccount = () => {
             className="w-4 h-4 border border-pink-400 rounded bg-pink-400 focus:ring-3 focus:ring-blue-300 dark:bg-pink-600 dark:border-pink-500 dark:focus:ring-blue-600 dark:ring-offset-pink-800 dark:focus:ring-offset-pink-800"
             required
           />
-          <p className="text-sm">Send me new and promotions</p>
+          <p className="text-sm text-textCol">Remember me</p>
         </div>
-        <p className="text-center mt-4 text-base text-regTextCol ">
-          By continuing I agree with the
-          <span className="text-footerCol">Terms & Conditions,</span>
-          <br />
-          <span className="text-footerCol">Privacy Policy</span>
-        </p>
       </div>
     </div>
   );
 };
 
-export default CreateAccount;
+export default Login;
