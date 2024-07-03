@@ -12,22 +12,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" Component={CreateAccount} />
-        <Route exact path="/login" Component={Login} />
-        <Route exact path="/address" Component={Address} />
-        <Route
-          exact
-          path="/PersonalInformation"
-          Component={PersonalInformation}
-        />
-        <Route
-          exact
-          path="/SuccessRegistration"
-          Component={SuccessRegistration}
-        />
-        <Route exact path="/Info" Component={Info} />
-        <Route exact path="/MainDashboard" Component={MainDashboard} />
-        <Route exact path="/showMap" Component={ShowMap} />
+        <Route path="/" Component={CreateAccount} />
+        <Route path="/login" Component={Login} />
+        <Route path="/address" Component={Address} />
+        <Route path="/PersonalInformation" Component={PersonalInformation} />
+        <Route path="/SuccessRegistration" Component={SuccessRegistration} />
+        <Route path="/Info" Component={Info} />
+        <Route path="/MainDashboard" Component={MainDashboard} />
+        <Route path="/showMap" Component={ShowMap} />
       </Routes>
     </BrowserRouter>
   );
