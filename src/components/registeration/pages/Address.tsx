@@ -7,7 +7,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons/faLocationDot";
 import { useNavigate } from "react-router-dom";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 type address = {
   search: string;
 };
@@ -15,15 +15,17 @@ const initialValues: address = {
   search: "",
 };
 
-const validate = (values) => {
-  const errors: address = {};
+const validate = (values: string) => {
+  const errors: address = {
+    search: "",
+  };
   if (!values.search) {
     errors.search = "This field is Required";
   }
   return errors;
 };
 const Address = () => {
-  const onSubmit = (values) => {
+  const onSubmit = () => {
     nextAddress();
   };
   const navigate = useNavigate();

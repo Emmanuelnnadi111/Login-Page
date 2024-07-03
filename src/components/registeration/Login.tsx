@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faApple, faFacebookF } from "@fortawesome/free-brands-svg-icons";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import Header from "../header/Header";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -16,7 +18,10 @@ const initialValues = {
 };
 
 const validate = (values: { password: number; email: string }) => {
-  const errors: info = {};
+  const errors: info = {
+    email: "",
+    password: "",
+  };
   if (!values.password) {
     errors.password = "This field is Required";
   }
@@ -30,7 +35,7 @@ const validate = (values: { password: number; email: string }) => {
 };
 
 const Login = () => {
-  const onSubmit = (values) => {
+  const onSubmit = (_values: any) => {
     dashboard();
   };
 
