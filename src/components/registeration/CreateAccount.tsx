@@ -1,12 +1,19 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faApple, faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import GoogleImage from "/images/super-g.png";
 import { Formik } from "formik";
 import Header from "../header/Header";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const CreateAccount = () => {
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   const navigate = useNavigate();
   const personInfor = () => {
     navigate("/PersonalInformation");
@@ -85,15 +92,16 @@ const CreateAccount = () => {
                 {errors.email && touched.email && errors.email}
                 <div className="relative">
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password"
-                    onChange={handleChange}
+                    onChange={(e) => setPassword(e.target.value)}
                     onBlur={handleBlur}
-                    value={values.password}
+                    value={password}
                     className="p-5 border-2 rounded-2xl outline-none border-borderCol w-full "
                   />
                   <FontAwesomeIcon
-                    icon={faEye}
+                    icon={showPassword ? faEyeSlash : faEye}
+                    onClick={togglePasswordVisibility}
                     className="absolute top-6 right-4 text-2xl "
                   />
                 </div>

@@ -1,11 +1,30 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Formik, useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 
 const Info = () => {
+  const formik = useFormik({
+    initialValues: {
+      street: "",
+      apartment: "",
+      city: "",
+      state: "",
+      zipCode: "",
+    },
+    // onSubmit: (values) => {
+    //   console.log(values);
+    //   successPage();
+    // },
+  });
+  console.log("form values:", formik.values);
   const navigate = useNavigate();
   const successPage = () => {
     navigate("/SuccessRegistration");
+  };
+  const handleSubmit = (e: Event) => {
+    e.preventDefault();
+    successPage();
   };
   return (
     <div className="h-screen flex w-full items-center justify-center bg-slate-300">
@@ -21,13 +40,15 @@ const Info = () => {
             </button>
           </div>
         </div>
-        <form action="address" className="mt-10">
+        <form action="address" onSubmit={handleSubmit} className="mt-10">
           <input
             type="text"
             name="street"
             id="street"
             className="p-4 border rounded-2xl outline-none w-full mt-5"
             placeholder="Street address"
+            value={formik.values.street}
+            onChange={formik.handleChange}
           />
           <input
             type="text"
@@ -35,6 +56,8 @@ const Info = () => {
             id="apartment"
             className="p-4 border rounded-2xl outline-none w-full mt-5 custom-flex"
             placeholder="Apartment Optional"
+            value={formik.values.apartment}
+            onChange={formik.handleChange}
           />
           <input
             type="text"
@@ -42,6 +65,8 @@ const Info = () => {
             id="city"
             className="p-4 border rounded-2xl outline-none w-full mt-5"
             placeholder="City "
+            value={formik.values.city}
+            onChange={formik.handleChange}
           />
           <div className="flex space-x-5">
             <input
@@ -50,6 +75,8 @@ const Info = () => {
               id="state"
               className="p-4 border rounded-2xl outline-none w-full mt-5"
               placeholder="State"
+              value={formik.values.state}
+              onChange={formik.handleChange}
             />
             <input
               type="number"
@@ -57,12 +84,13 @@ const Info = () => {
               id="zip"
               className="p-4 border rounded-2xl outline-none w-full mt-5"
               placeholder="Zip code"
+              value={formik.values.zipCode}
+              onChange={formik.handleChange}
             />
           </div>
           <button
             className="register-btn mt-32 py-5 rounded-2xl text-white font-semibold text-xl w-full text-center bg-borderCol"
             type="submit"
-            onClick={successPage}
           >
             Save information
           </button>
