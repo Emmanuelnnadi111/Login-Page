@@ -2,24 +2,59 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faApple, faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import GoogleImage from "/images/super-g.png";
-import { Formik } from "formik";
+import { useFormik } from "formik";
 import Header from "../header/Header";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
+type info = {
+  email: string;
+  password: string;
+};
+
+const initialValues = {
+  email: "",
+  password: "",
+};
+
+const validate = (values: { password: number; email: string }) => {
+  const errors: info = {};
+  if (!values.password) {
+    errors.password = "This field is Required";
+  }
+
+  if (!values.email) {
+    errors.email = "This field is Required";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+    errors.email = "Invalid email address";
+  }
+  return errors;
+};
+
 const CreateAccount = () => {
-  const [password, setPassword] = useState("");
+  const onSubmit = (values) => {
+    personInfo();
+  };
+
+  const formik = useFormik({
+    initialValues,
+    onSubmit,
+    validate,
+  });
+
+  const navigate = useNavigate();
+  const personInfo = () => {
+    navigate("/PersonalInformation");
+  };
+
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const navigate = useNavigate();
-  const personInfor = () => {
-    navigate("/PersonalInformation");
-  };
+
   return (
-    <div className="h-screen flex w-full items-center justify-center bg-slate-300">
+    <div className="h-screen flex w-full items-center justify-center bg-slate-100">
       <div className="register bg-offWhite p-6 w-[90%] lg:w-[35%] md:h-[60%] lg:h-[90%] sm:p-12 rounded-3xl ">
         <div className="first-row flex justify-between">
           <Header />
@@ -46,79 +81,52 @@ const CreateAccount = () => {
           </div>
         </div>
         <p className="text-regTextCol">or register with email</p>
-        <Formik
-          initialValues={{ email: "", password: "" }}
-          validate={(values) => {
-            const errors = {};
-            if (!values.email) {
-              errors.email = "Required";
-            } else if (
-              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-            ) {
-              errors.email = "Invalid email address";
-            }
-            return errors;
-          }}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 400);
-          }}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting,
-            /* and other goodies */
-          }) => (
-            <div>
-              <form
-                onSubmit={handleSubmit}
-                className="flex flex-col gap-6 pt-5"
-              >
-                <input
-                  type="email"
-                  name="email"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.email}
-                  className="p-5 border rounded-2xl outline-none"
-                />
-                {errors.email && touched.email && errors.email}
-                <div className="relative">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    onBlur={handleBlur}
-                    value={password}
-                    className="p-5 border-2 rounded-2xl outline-none border-borderCol w-full "
-                  />
-                  <FontAwesomeIcon
-                    icon={showPassword ? faEyeSlash : faEye}
-                    onClick={togglePasswordVisibility}
-                    className="absolute top-6 right-4 text-2xl "
-                  />
-                </div>
-                {errors.password && touched.password && errors.password}
-              </form>
-              <p className="text-regTextCol">8+ characters</p>
-              <button
-                className="register-btn mt-7 py-5 rounded-2xl text-white font-semibold text-xl w-full text-center bg-borderCol"
-                type="submit"
-                disabled={isSubmitting}
-                onClick={personInfor}
-              >
-                Create account
-              </button>
+
+        <div>
+          <form
+            onSubmit={formik.handleSubmit}
+            className="flex flex-col gap-3 pt-5"
+          >
+            <input
+              type="email"
+              name="email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+              className="p-4 border rounded-2xl outline-none"
+            />
+            {formik.touched.email && formik.errors.email ? (
+              <div className="text-red-600 ">{formik.errors.email}</div>
+            ) : null}
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+                className="p-4 border-2 rounded-2xl outline-none border-borderCol w-full "
+              />
+              <FontAwesomeIcon
+                icon={showPassword ? faEyeSlash : faEye}
+                onClick={togglePasswordVisibility}
+                className="absolute top-6 right-4 text-2xl "
+              />
             </div>
-          )}
-        </Formik>
+            {formik.touched.password && formik.errors.password ? (
+              <div className="text-red-600 ">{formik.errors.password}</div>
+            ) : null}
+
+            <p className="text-regTextCol">8+ characters</p>
+            <button
+              className="register-btn  py-4 rounded-2xl text-white font-semibold text-xl w-full text-center bg-borderCol"
+              type="submit"
+            >
+              Create account
+            </button>
+          </form>
+        </div>
+
         <div className="terms flex mt-4 space-x-5">
           <input
             type="checkbox"
