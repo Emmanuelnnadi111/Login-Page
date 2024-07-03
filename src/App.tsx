@@ -1,11 +1,12 @@
 import "./App.css";
 import Login from "./components/registeration/Login";
 import CreateAccount from "./components/registeration/CreateAccount";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Address from "./components/registeration/pages/Address";
 import PersonalInformation from "./components/registeration/pages/PersonalInformation";
-import SuccessRegistration from "./components/registeration/pages/SuccessRegisteration";
+import Address from "./components/registeration/pages/Address";
+import SuccessRegistration from "./components/registeration/pages/SuccessRegistration";
 import MainDashboard from "./components/dashboard/MainDasboard";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Info from "./components/registeration/Infro";
 function App() {
   return (
     <BrowserRouter>
@@ -20,10 +21,11 @@ function App() {
         />
         <Route
           exact
-          path="/SuccessRegisteration"
+          path="/SuccessRegistration"
           Component={SuccessRegistration}
         />
-        <Route exact path="/MainDasboard" Component={MainDashboard} />
+        <Route exact path="/Info" Component={Info} />
+        <Route exact path="/MainDashboard" Component={MainDashboard} />
       </Routes>
     </BrowserRouter>
   );

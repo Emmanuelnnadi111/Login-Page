@@ -3,8 +3,13 @@ import { faEye, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faApple, faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import { Formik } from "formik";
 import Header from "../header/Header";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dashboard = () => {
+    navigate("/MainDashboard");
+  };
   return (
     <div className="h-screen flex w-full items-center justify-center bg-slate-300">
       <div className="register bg-offWhite p-6 w-[90%] lg:w-[35%] md:h-[60%] lg:h-[90%] sm:p-12 rounded-3xl">
@@ -96,6 +101,7 @@ const Login = () => {
                   className="register-btn mt-7 py-5 rounded-2xl text-white font-semibold text-xl w-full text-center bg-borderCol"
                   type="submit"
                   disabled={isSubmitting}
+                  onClick={dashboard}
                 >
                   Login to Dashboard
                 </button>

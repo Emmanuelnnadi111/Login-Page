@@ -4,11 +4,17 @@ import {
   faAngleLeft,
   faAngleRight,
   faArrowDown,
+  faArrowRightFromBracket,
   faArrowUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
 
 const MainDashboard = () => {
+  const navigate = useNavigate();
+  const goBack = () => {
+    navigate("/login");
+  };
   const [open, setOpen] = useState(false);
   return (
     <div className="flex h-screen">
@@ -137,7 +143,27 @@ const MainDashboard = () => {
                   />
                 </a>
               </li>
+              <li>
+                <a className="flex items-center text-dabTextCol rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                  <FontAwesomeIcon
+                    icon={faArrowRightFromBracket}
+                    className={`${
+                      open && "hidden"
+                    } items-center bg-borderCol text-white px-4 py-2 rounded-lg`}
+                    onClick={goBack}
+                  />
+                  <button
+                    onClick={goBack}
+                    className={`${
+                      !open && "hidden"
+                    } bg-borderCol text-white py-2 w-10 rounded-xl flex-1 `}
+                  >
+                    Log Out
+                  </button>
+                </a>
+              </li>
             </ul>
+
             <div
               className={`${
                 !open && "hidden"
