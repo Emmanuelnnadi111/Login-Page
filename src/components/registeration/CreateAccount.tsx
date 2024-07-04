@@ -1,24 +1,24 @@
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faApple, faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import GoogleImage from "/images/super-g.png";
-import { useFormik } from "formik";
+import { useFormik, FormikErrors } from "formik";
 import Header from "../header/Header";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
-type info = {
+type Info = {
   email: string;
   password: string;
 };
 
-const initialValues = {
+const initialValues: Info = {
   email: "",
   password: "",
 };
 
-const validate = (values: { password: number; email: string }) => {
-  const errors: info = {};
+const validate = (values: Info) => {
+  const errors: FormikErrors<Info> = {};
   if (!values.password) {
     errors.password = "This field is Required";
   }
@@ -31,8 +31,14 @@ const validate = (values: { password: number; email: string }) => {
   return errors;
 };
 
-const CreateAccount = () => {
-  const onSubmit = (values) => {
+const CreateAccount: React.FC = () => {
+  const navigate = useNavigate();
+
+  const personInfo = () => {
+    navigate("/PersonalInformation");
+  };
+
+  const onSubmit = () => {
     personInfo();
   };
 
@@ -42,11 +48,6 @@ const CreateAccount = () => {
     validate,
   });
 
-  const navigate = useNavigate();
-  const personInfo = () => {
-    navigate("/PersonalInformation");
-  };
-
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -55,7 +56,7 @@ const CreateAccount = () => {
 
   return (
     <div className="h-screen flex w-full items-center justify-center bg-slate-100">
-      <div className="register bg-offWhite p-6 w-[90%] lg:w-[35%] md:h-[60%] lg:h-[90%] sm:p-12 rounded-3xl ">
+      <div className="register bg-offWhite p-6 w-[90%] lg:w-[35%] md:h-[60%] lg:h-[90%] sm:p-12 rounded-3xl">
         <div className="first-row flex justify-between">
           <Header />
           <div className="cancel">
@@ -66,22 +67,21 @@ const CreateAccount = () => {
         </div>
         <div className="brand-icons py-10">
           <div className="icons flex space-x-10 text-2xl">
-            <div className="apple-icon rounded-full w-12 h-12 text-center flex items-center justify-center  bg-iconsBgCol">
+            <div className="apple-icon rounded-full w-12 h-12 text-center flex items-center justify-center bg-iconsBgCol">
               <FontAwesomeIcon icon={faApple} />
             </div>
-            <div className="facebook-icon rounded-full w-12 h-12 text-center flex items-center justify-center  bg-iconsBgCol">
+            <div className="facebook-icon rounded-full w-12 h-12 text-center flex items-center justify-center bg-iconsBgCol">
               <FontAwesomeIcon
                 icon={faFacebookF}
-                className="text-faceboolCol"
+                className="text-facebookCol"
               />
             </div>
-            <div className="google-icon rounded-full w-12 h-12 text-center flex items-center justify-center  bg-iconsBgCol">
+            <div className="google-icon rounded-full w-12 h-12 text-center flex items-center justify-center bg-iconsBgCol">
               <img src={GoogleImage} alt="google" />
             </div>
           </div>
         </div>
         <p className="text-regTextCol">or register with email</p>
-
         <div>
           <form
             onSubmit={formik.handleSubmit}
@@ -105,41 +105,38 @@ const CreateAccount = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
-                className="p-4 border-2 rounded-2xl outline-none border-borderCol w-full "
+                className="p-4 border-2 rounded-2xl outline-none border-borderCol w-full"
               />
               <FontAwesomeIcon
                 icon={showPassword ? faEyeSlash : faEye}
                 onClick={togglePasswordVisibility}
-                className="absolute top-6 right-4 text-2xl "
+                className="absolute top-6 right-4 text-2xl"
               />
             </div>
             {formik.touched.password && formik.errors.password ? (
               <div className="text-red-600 ">{formik.errors.password}</div>
             ) : null}
-
             <p className="text-regTextCol">8+ characters</p>
             <button
-              className="register-btn  py-4 rounded-2xl text-white font-semibold text-xl w-full text-center bg-borderCol"
+              className="register-btn py-4 rounded-2xl text-white font-semibold text-xl w-full text-center bg-borderCol"
               type="submit"
             >
               Create account
             </button>
           </form>
         </div>
-
         <div className="terms flex mt-4 space-x-5">
           <input
             type="checkbox"
-            name=""
             id="custom-checkbox"
             className="w-4 h-4 border border-pink-400 rounded bg-pink-400 focus:ring-3 focus:ring-blue-300 dark:bg-pink-600 dark:border-pink-500 dark:focus:ring-blue-600 dark:ring-offset-pink-800 dark:focus:ring-offset-pink-800"
             required
           />
           <p className="text-sm">Send me new and promotions</p>
         </div>
-        <p className="text-center mt-4 text-base text-regTextCol ">
+        <p className="text-center mt-4 text-base text-regTextCol">
           By continuing I agree with the
-          <span className="text-footerCol">Terms & Conditions,</span>
+          <span className="text-footerCol"> Terms & Conditions,</span>
           <br />
           <span className="text-footerCol">Privacy Policy</span>
         </p>

@@ -2,21 +2,22 @@ import React from "react";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
-type info = {
+import { useFormik, FormikErrors } from "formik";
+
+type Info = {
   fullName: string;
   phoneNumber: string;
   birthday: string;
 };
 
-const initialValues = {
+const initialValues: Info = {
   fullName: "",
   phoneNumber: "",
   birthday: "",
 };
 
-const validate = (values) => {
-  const errors: info = {};
+const validate = (values: Info) => {
+  const errors: FormikErrors<Info> = {};
   if (!values.fullName) {
     errors.fullName = "This field is Required";
   }
@@ -31,8 +32,10 @@ const validate = (values) => {
   return errors;
 };
 
-const PersonalInformation = () => {
-  const onSubmit = (values) => {
+const PersonalInformation: React.FC = () => {
+  const navigate = useNavigate();
+
+  const onSubmit = () => {
     address();
   };
 
@@ -42,7 +45,6 @@ const PersonalInformation = () => {
     validate,
   });
 
-  const navigate = useNavigate();
   const address = () => {
     navigate("/address");
   };
@@ -63,7 +65,7 @@ const PersonalInformation = () => {
             </button>
           </div>
         </div>
-        <form action="" onSubmit={formik.handleSubmit}>
+        <form onSubmit={formik.handleSubmit}>
           <input
             type="text"
             name="fullName"
@@ -81,11 +83,11 @@ const PersonalInformation = () => {
               Gender:
             </label>
             <div className="flex items-center space-x-2">
-              <input type="radio" name="male" id="male" />
+              <input type="radio" name="gender" id="male" />
               <p>Male</p>
             </div>
             <div className="flex items-center space-x-2">
-              <input type="radio" name="female" id="female" />
+              <input type="radio" name="gender" id="female" />
               <p>Female</p>
             </div>
           </div>
@@ -101,10 +103,10 @@ const PersonalInformation = () => {
               className="rounded-2xl border px-10 text-regTextCol"
             >
               <option value="Uruguay">+598</option>
-              <option value="nigeriaCOde">+234</option>
-              <option value=" Bahamas ">+242</option>
+              <option value="nigeriaCode">+234</option>
+              <option value="Bahamas">+242</option>
               <option value="USA">+1</option>
-              <option value="Venezuela ">+58</option>
+              <option value="Venezuela">+58</option>
             </select>
             <input
               type="number"
@@ -126,7 +128,7 @@ const PersonalInformation = () => {
             type="date"
             name="birthday"
             className="p-5 border rounded-2xl w-full mt-10"
-            value={formik.values.fullName}
+            value={formik.values.birthday}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
           />

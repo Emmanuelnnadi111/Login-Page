@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
 // Fix the default marker icon issue with Leaflet in React
-delete L.Icon.Default.prototype._getIconUrl;
+delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
     "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
@@ -12,8 +12,8 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
 });
 
-function MapComponent() {
-  const [position, setPosition] = useState([51.505, -0.09]); // Default position
+const MapComponent: React.FC = () => {
+  const [position, setPosition] = useState<[number, number]>([51.505, -0.09]); // Default position
 
   useEffect(() => {
     // Get the user's current location
@@ -42,6 +42,6 @@ function MapComponent() {
       </Marker>
     </MapContainer>
   );
-}
+};
 
 export default MapComponent;
