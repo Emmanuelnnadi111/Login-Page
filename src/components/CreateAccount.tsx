@@ -3,9 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faApple, faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import GoogleImage from "/images/super-g.png";
-import { useFormik, FormikErrors } from "formik";
-import Header from "../header/Header";
+import { useFormik, FormikErrors, FormikValues } from "formik";
+import Header from "./header/Header";
 import { useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "./firebase";
+import { setDoc, doc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 type Info = {
   email: string;
@@ -38,8 +42,24 @@ const CreateAccount: React.FC = () => {
     navigate("/PersonalInformation");
   };
 
-  const onSubmit = () => {
-    personInfo();
+  const onSubmit = async (values: FormikValues) => {
+    try {
+      await createUserWithEmailAndPassword(auth, values.email, values.password);
+      const user = auth.currentUser;
+      console.log(user);
+      if (user) {
+        const userRef = doc(db, "Users", user.uid);
+        await setDoc(userRef, {
+          email: user.email,
+        });
+        console.log("User document created!");
+        toast.success("Email added successfully", { position: "top-left" });
+        personInfo();
+      }
+      console.log("user is registered successfully");
+    } catch (error) {
+      toast.error(String(error), { position: "bottom-right" });
+    }
   };
 
   const formik = useFormik({

@@ -2,23 +2,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faApple, faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import { FormikErrors, useFormik } from "formik";
-import Header from "../header/Header";
+import Header from "./header/Header";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./firebase";
+import { toast } from "react-toastify";
 
-// Define the type for form values
 interface FormValues {
   email: string;
   password: string;
 }
 
-// Initial values for the form
 const initialValues: FormValues = {
   email: "",
   password: "",
 };
 
-// Validation function
 const validate = (values: FormValues): FormikErrors<FormValues> => {
   const errors: FormikErrors<FormValues> = {};
   if (!values.password) {
@@ -36,8 +36,16 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  const onSubmit = () => {
-    dashboard();
+  const onSubmit = async (values: FormValues) => {
+    try {
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+      dashboard();
+      toast.success("User Logged In successfully!", {
+        position: "top-right",
+      });
+    } catch (error) {
+      toast.error(String(error), { position: "bottom-right" });
+    }
   };
 
   const formik = useFormik<FormValues>({
